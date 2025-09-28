@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -89,8 +90,28 @@ public class NumberTriangle {
      */
     public int retrieve(String path) {
         // TODO implement this method
+        // lets have a for loop going through each arraylist in the arraylist
+        // we start with a return index of 0, cuz thats the top number
+        // if the user enters in Left, then we keep that number
+        // if the user enters in Right, then we add one to that number,
+            // cuz thatsll point us to the right child in the upcoming line
+        // return the final element in the arraylist at the index that we
+            //have been keeping track of
+        // if its an empty string, return the root of the number triangle
+
+
+
         return -1;
     }
+
+
+
+
+
+
+
+
+
 
     /** Read in the NumberTriangle structure from a file.
      *
@@ -109,24 +130,38 @@ public class NumberTriangle {
         InputStream inputStream = NumberTriangle.class.getClassLoader().getResourceAsStream(fname);
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
-
-        // TODO define any variables that you want to use to store things
-
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
         NumberTriangle top = null;
 
         String line = br.readLine();
+        // makes an arraylist to store the rows of number triangles
+        ArrayList<ArrayList<NumberTriangle>> listOfTriangles = new ArrayList<>();
         while (line != null) {
-
-            // remove when done; this line is included so running starter code prints the contents of the file
-            System.out.println(line);
-
-            // TODO process the line
-
+            // row stores a list of number triangles
+            ArrayList<NumberTriangle> row = new ArrayList<>();
+            String[] parts = line.trim().split("\\s+");
+            // if its a number, then make a number Triangle out of it
+            for (String part : parts) {
+                row.add(new NumberTriangle(Integer.parseInt(part)));
+            }
+            // add the row of number triangles to the list of rows
+            listOfTriangles.add(row);
             //read the next line
             line = br.readLine();
         }
+        // now that we have the list of rows of number triangles
+        // we need to loop through each row (except for the bottom) to attach left and rights
+        for (int i = 0; i < listOfTriangles.size()-1; i++){
+            ArrayList<NumberTriangle> currentRow = listOfTriangles.get(i);
+            ArrayList<NumberTriangle> nextRow = listOfTriangles.get(i+1);
+            for (int j = 0; j < currentRow.size(); j++) {
+                NumberTriangle currentTriangle = currentRow.get(j);
+                currentTriangle.setLeft(nextRow.get(j));
+                currentTriangle.setRight(nextRow.get(j+1));
+            }
+        }
+
         br.close();
         return top;
     }
@@ -138,7 +173,7 @@ public class NumberTriangle {
         // [not for credit]
         // you can implement NumberTriangle's maxPathSum method if you want to try to solve
         // Problem 18 from project Euler [not for credit]
-        mt.maxSumPath();
-        System.out.println(mt.getRoot());
+        // mt.maxSumPath();
+        // System.out.println(mt.getRoot());
     }
 }
