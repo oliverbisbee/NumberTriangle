@@ -89,19 +89,23 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
-        // lets have a for loop going through each arraylist in the arraylist
-        // we start with a return index of 0, cuz thats the top number
-        // if the user enters in Left, then we keep that number
-        // if the user enters in Right, then we add one to that number,
-            // cuz thatsll point us to the right child in the upcoming line
-        // return the final element in the arraylist at the index that we
-            //have been keeping track of
-        // if its an empty string, return the root of the number triangle
 
+        NumberTriangle node = this;
+        if (node.equals("")){
+            return node.getRoot();
+        }
 
+        for (int i = 0; i < path.length(); i++){
+            char c =  path.charAt(i);
+            if (c == 'l'){
+                node = node.left;
+            } else if (c == 'r'){
+                node = node.right;
+            }
 
-        return -1;
+        }
+
+        return node.getRoot();
     }
 
 
@@ -163,7 +167,7 @@ public class NumberTriangle {
         }
 
         br.close();
-        return top;
+        return listOfTriangles.get(0).get(0);
     }
 
     public static void main(String[] args) throws IOException {
@@ -174,6 +178,6 @@ public class NumberTriangle {
         // you can implement NumberTriangle's maxPathSum method if you want to try to solve
         // Problem 18 from project Euler [not for credit]
         // mt.maxSumPath();
-        // System.out.println(mt.getRoot());
+        System.out.println(mt.getRoot());
     }
 }
